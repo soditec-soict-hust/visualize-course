@@ -207,37 +207,38 @@ if uploaded_file is not None:
                 )
             )
             st.altair_chart(class_chart, use_container_width=True)
-        time_detail_cols = st.columns(2, gap="medium")
-        with time_detail_cols[0]:
-
-            st.markdown("#### Day")
-            day_details = df['Day'].value_counts().to_dict()
-            days = list(day_details.keys())
-            values = list(day_details.values())
-            day = pd.DataFrame({
-                "Day": days,
-                "Value": values
-            })
-            day_chart = alt.Chart(day).mark_line().encode(
-                x="Day:T",
-                y='Value:Q'
-            )
-            st.altair_chart(day_chart)
-
-
-
-        with time_detail_cols[1]:
-            st.markdown("#### Time")
-            day_details = df['Time'].value_counts().to_dict()
-            hours = list(day_details.keys())
-            values = list(day_details.values())
-            day = pd.DataFrame({
-                "Hour": hours,
-                "Value": values
-            })
-            day_chart = alt.Chart(day).mark_line().encode(
-                x="Hour:Q",
-                y='Value:Q'
-            )
-            st.altair_chart(day_chart)
+            time_detail_cols = st.columns(2, gap="medium")
+            with time_detail_cols[0]:
+                with st.container(border=False):
+                    st.markdown("#### Day")
+                    day_details = df['Day'].value_counts().to_dict()
+                    days = list(day_details.keys())
+                    values = list(day_details.values())
+                    day = pd.DataFrame({
+                        "Day": days,
+                        "Value": values
+                    })
+                    day_chart = alt.Chart(day).mark_line().encode(
+                        x="Day:T",
+                        y='Value:Q'
+                    )
+                    st.altair_chart(day_chart, use_container_width=True)
+        
+        
+    
+            with time_detail_cols[1]:
+                with st.container(border=False):
+                    st.markdown("#### Time")
+                    day_details = df['Time'].value_counts().to_dict()
+                    hours = list(day_details.keys())
+                    values = list(day_details.values())
+                    day = pd.DataFrame({
+                        "Hour": hours,
+                        "Value": values
+                    })
+                    day_chart = alt.Chart(day).mark_line().encode(
+                        x="Hour:Q",
+                        y='Value:Q'
+                    )
+                    st.altair_chart(day_chart, use_container_width=True)
 
