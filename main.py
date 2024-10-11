@@ -186,26 +186,27 @@ if uploaded_file is not None:
 
 
     with col[1]:
-        st.markdown("#### Top Class")
+        with st.container(border=False):
+            st.markdown("#### Top Class")
 
-        class_detail = df['Class'].value_counts().to_dict().keys()
-        values = df['Class'].value_counts().to_dict().values()
-        class_df = pd.DataFrame({
-            "Class": class_detail,
-            "Count": values
-        })
+            class_detail = df['Class'].value_counts().to_dict().keys()
+            values = df['Class'].value_counts().to_dict().values()
+            class_df = pd.DataFrame({
+                "Class": class_detail,
+                "Count": values
+            })
 
-        class_chart = alt.Chart(class_df).mark_bar().encode(
-            x='Class:O',
-            y="Count:Q",
-            # The highlight will be set on the result of a conditional statement
-            color=alt.condition(
-                alt.datum.Count == max(values),  # If the year is 1810 this test returns True,
-                alt.value('orange'),     # which sets the bar orange.
-                alt.value('steelblue')   # And if it's not true it sets the bar steelblue.
+            class_chart = alt.Chart(class_df).mark_bar().encode(
+                x='Class:O',
+                y="Count:Q",
+                # The highlight will be set on the result of a conditional statement
+                color=alt.condition(
+                    alt.datum.Count == max(values),  # If the year is 1810 this test returns True,
+                    alt.value('orange'),     # which sets the bar orange.
+                    alt.value('steelblue')   # And if it's not true it sets the bar steelblue.
+                )
             )
-        )
-        st.altair_chart(class_chart)
+            st.altair_chart(class_chart, use_container_width=True)
         time_detail_cols = st.columns(2, gap="medium")
         with time_detail_cols[0]:
 
@@ -239,5 +240,4 @@ if uploaded_file is not None:
                 y='Value:Q'
             )
             st.altair_chart(day_chart)
-
 
