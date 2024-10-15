@@ -14,6 +14,7 @@ def processing_file(file, file_type):
         df = pd.read_csv(file)
     elif file_type in ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']:
         df = pd.read_excel(file)
+    df['Lớp\nClass\nVD: IT1-05-K68'] = df['Lớp\nClass\nVD: IT1-05-K68'].apply(lambda x: str(x).upper())
     data = pd.DataFrame(columns=["Time", "Day", "IsHust", "MSSV", "Class", "Grade", "Sex"])
     data["Time"] = pd.to_datetime(df['Timestamp']).dt.hour
     data["Day"] = pd.to_datetime(df['Timestamp']).dt.date
