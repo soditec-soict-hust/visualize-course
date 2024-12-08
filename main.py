@@ -107,7 +107,7 @@ st.markdown("""
 #----------------------------------------SideBar-------------------------------------------------
 with st.sidebar:
     uploaded_file = st.file_uploader("Upload Course Static File")
-    with open(".\course_template_file.xlsx", "rb") as f:
+    with open("course_template_file.xlsx", "rb") as f:
         st.download_button("Download Course Static File Template", f, file_name="course_static_template.xlsx")
 
 #-----------------------------------------Dashboard Title-----------------------------------------
