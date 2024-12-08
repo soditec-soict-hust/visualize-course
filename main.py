@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded")
 
 
-# Donut chart
+#Donut chart
 def make_donut(total, input_response, input_text, input_color):
     if input_color == 'blue':
         chart_color = ['#29b5e8', '#155F7A']
@@ -54,8 +54,8 @@ def make_donut(total, input_response, input_text, input_color):
                         legend=None),
     ).properties(width=130, height=130)
     return plot_bg + plot + text
-#######################
-# CSS styling
+
+#---------------------------------------------CSS styling-----------------------------------------------
 st.markdown("""
 <style>
 
@@ -104,15 +104,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+#----------------------------------------SideBar-------------------------------------------------
 with st.sidebar:
-    selected = option_menu("Course", ["Latex"],
-                           icons=['book'], menu_icon="cast", default_index=0)
-    st.markdown("---")
-    uploaded_file = st.file_uploader("Upload File To Visualize")
+    uploaded_file = st.file_uploader("Upload Course Static File")
 
-
-#######################
-# Dashboard Title
+#-----------------------------------------Dashboard Title-----------------------------------------
 st.markdown("""
     <style>
     .dashboard-title {
@@ -130,9 +126,9 @@ st.markdown("""
         font-size: 1.2em;
         margin: 5px 0 0 0;
     }
-    </style>"""+f"""
+    </style>"""+"""
     <div class="dashboard-title">
-        <h1>{selected} Course Statistics</h1>
+        <h1>Course Statistics</h1>
     </div>
     """, unsafe_allow_html=True)
 
@@ -144,9 +140,7 @@ if uploaded_file is not None:
         df = processing_file(uploaded_file, file_type)
 
 
-
-    #######################
-    # Dashboard Main Panel
+#-----------------------------------Dashboard Main Panel--------------------------------------------
     col = st.columns((1.5, 4.5), gap='medium')
     with col[0]:
         st.markdown("#### Total Registered")
@@ -207,38 +201,37 @@ if uploaded_file is not None:
                 )
             )
             st.altair_chart(class_chart, use_container_width=True)
-            time_detail_cols = st.columns(2, gap="medium")
-            with time_detail_cols[0]:
-                with st.container(border=False):
-                    st.markdown("#### Day")
-                    day_details = df['Day'].value_counts().to_dict()
-                    days = list(day_details.keys())
-                    values = list(day_details.values())
-                    day = pd.DataFrame({
-                        "Day": days,
-                        "Value": values
-                    })
-                    day_chart = alt.Chart(day).mark_line().encode(
-                        x="Day:T",
-                        y='Value:Q'
-                    )
-                    st.altair_chart(day_chart, use_container_width=True)
-        
-        
-    
-            with time_detail_cols[1]:
-                with st.container(border=False):
-                    st.markdown("#### Time")
-                    day_details = df['Time'].value_counts().to_dict()
-                    hours = list(day_details.keys())
-                    values = list(day_details.values())
-                    day = pd.DataFrame({
-                        "Hour": hours,
-                        "Value": values
-                    })
-                    day_chart = alt.Chart(day).mark_line().encode(
-                        x="Hour:Q",
-                        y='Value:Q'
-                    )
-                    st.altair_chart(day_chart, use_container_width=True)
+        time_detail_cols = st.columns(2, gap="medium")
+        with time_detail_cols[0]:
+
+            st.markdown("#### Day")
+            day_details = df['Day'].value_counts().to_dict()
+            days = list(day_details.keys())
+            values = list(day_details.values())
+            day = pd.DataFrame({
+                "Day": days,
+                "Value": values
+            })
+            day_chart = alt.Chart(day).mark_line().encode(
+                x="Day:T",
+                y='Value:Q'
+            )
+            st.altair_chart(day_chart)
+
+
+
+        with time_detail_cols[1]:
+            st.markdown("#### Time")
+            day_details = df['Time'].value_counts().to_dict()
+            hours = list(day_details.keys())
+            values = list(day_details.values())
+            day = pd.DataFrame({
+                "Hour": hours,
+                "Value": values
+            })
+            day_chart = alt.Chart(day).mark_line().encode(
+                x="Hour:Q",
+                y='Value:Q'
+            )
+            st.altair_chart(day_chart)
 
